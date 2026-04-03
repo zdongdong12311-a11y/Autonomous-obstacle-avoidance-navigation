@@ -17,6 +17,11 @@ catkin_make
 解决：sudo apt-get install libdw-dev
 (2)catkin_make时出现backward.hpp没有找到
 解决：将sumpixel_test.cpp中# include "backward.hpp"改为：#include “code_utils/backward.hpp”
+(3)‘CV_LOAD_IMAGE_GRAYSCALE’ was not declared in this scope
+解决：cd /home/a123/imu_catkin_ws/src/code_utils/src
+sed -i 's/CV_LOAD_IMAGE_GRAYSCALE/cv::IMREAD_GRAYSCALE/g' sumpixel_test.cpp
+sed -i 's/CV_LOAD_IMAGE_UNCHANGED/cv::IMREAD_UNCHANGED/g' mat_io_test.cpp
+sed -i 's/CV_MINMAX/cv::NORM_MINMAX/g' sumpixel_test.cpp
 
 3、下载imu_utils:
 cd ~/imu_catkin_ws/src/
@@ -31,11 +36,6 @@ import cv2-bridge之前。
 
 5、标定：
 (1)找到realsense-ros包，进入/catkin_ws/src/realsense-ros/realsense2_camera/launch（路径仅供参考），修改其中的rs_camera.launch的参数。
-1.
-2.
-3.
-4.
-5.
 (2)启动命令为roslaunch realsense2_camera rs_camera.launch
 (3)编辑启动文件:
 gedit ~/imu_catkin_ws/src/imu_utils/launch/d455_imu_calibration.launch
