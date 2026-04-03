@@ -112,7 +112,7 @@ VINS-Fusion/
     ├── realsense_d435i/   ← 你用 RealSense 的话用这个
     └── ...
     
-四.五、如果ceres-solver没有安装先安装ceres：
+四.五、如果还提示ceres-solver没有安装先安装ceres：
 git clone https://ceres-solver.googlesource.com/ceres-solver
 cd ceres-solver
 mkdir build && cd build
@@ -122,3 +122,14 @@ make test         # 可选，运行测试套件
 sudo make install # 安装到系统目录
 
 五、根据kalib_标定进行标定
+
+六、ego-planner安装：
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/src
+git clone https://github.com/ZJU-FAST-Lab/ego-planner.git
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+
+测试：
+roslaunch ego_planner single_run_in_sim.launch
