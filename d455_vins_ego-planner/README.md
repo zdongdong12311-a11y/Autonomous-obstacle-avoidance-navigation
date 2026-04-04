@@ -123,7 +123,23 @@ sudo make install # 安装到系统目录
 
 五、根据kalib_标定进行标定
 
-六、ego-planner安装：
+六、测试：
+方法一：
+1、打开一个终端 ，用roslaunch 打开realsense摄像头：
+source ~/catkin_ws/devel/setup.bash
+roslaunch realsense2_camera rs_camera.launch
+2、新开终端：
+source ~/catkin_ws/devel/setup.bash
+roslaunch vins vins_rviz.launch
+3、新开终端：
+source ~/catkin_ws/devel/setup.bash
+rosrun vins vins_node ~/catkin_ws/src/VINS-Fusion/config/yourconfig_path/your_config_file.yaml 
+绕着走了两个矩形，理论上打开回环检测模块，结果会更加精确
+注意，要关闭结构光，结构光会影响轨迹的准确性
+结果可以参考
+
+
+七、ego-planner安装：
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 git clone https://github.com/ZJU-FAST-Lab/ego-planner.git
