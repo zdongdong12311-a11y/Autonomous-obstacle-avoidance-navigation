@@ -35,7 +35,7 @@ cmake .. \
     -DBUILD_EXAMPLES=true \
     -DBUILD_GRAPHICAL_EXAMPLES=true \
     -DCMAKE_BUILD_TYPE=release \
-    -DFORCE_RSUSB_BACKEND=true \
+    -DFORCE_RSUSB_BACKEND=true \rrrff
     -DBUILD_PYTHON_BINDINGS=true \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
     -DBUILD_TOOLS=true
