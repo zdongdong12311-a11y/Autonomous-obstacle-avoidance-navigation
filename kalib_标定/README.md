@@ -204,6 +204,9 @@ rosbag record -O imu_stereo.bag /infra_left /infra_right /imu
 根据camchain-imucam-homezjimu_stereo.yaml中的相机内参和畸变参数填写，结果如下：
 （1）left.yaml
 （2）right.yaml
+（3）realsense_stereo_imu_config.yaml
+
+五、special:飞控与d455的外参矩阵标定：
 
 WARN：可以直接查看和使用官方标定好的left.yaml、right.yaml的内参数据:
 在realsense-ros工作空间下：roslaunch realsense2_camera rs_camera.launch
@@ -213,7 +216,6 @@ WARN：可以直接查看和使用官方标定好的left.yaml、right.yaml的内
       [fy,cy]的参数矩阵
 直接修改即可.
 
-五、飞控与d455的外参矩阵标定：
 1、启动px4:
 roslaunch mavros Px4.launch
 2、修改realsense_stereo_imu_config.yaml中的imu话题，改为：imu/mavros/data_raw
