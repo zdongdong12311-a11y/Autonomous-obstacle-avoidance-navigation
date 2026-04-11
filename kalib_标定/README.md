@@ -86,6 +86,8 @@ cd 存放imu_calibration.bag的路径
 rosbag play -r 200 imu_calibration.bag
 结果d455_imu_param.yaml可在设定的目录内查看。
 
+注意：imu_utils要求imu频率必须大于等于200hz以保证精确度。
+
 二、多(双)相机标定：
 1、下载/购买标定板：https://github.com/ethz-asl/kalibr/wiki/downloads
 warn：本项目使用棋盘格标定，aprilgrid与Checkerboard
