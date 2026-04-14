@@ -182,7 +182,24 @@ eg:
 /mavros/vision_pose/pose输入飞控EKF2融合后告诉飞控:“我认为你现在在(2,y，z)。
 /mavros/local_position/pose飞控最终确认的:"结合了视觉、IMU、气压计，我确定我在(a,y,z)。
 
-八、飞机悬停测试：
+八、数据收敛（建议收敛几次）：
+先按照~/catkin_ws/src/VINS-Fusion/config/yourconfig_path/your_config_file.yaml这个文件里面的output文件夹的路径新建相应名称的文件夹。
+terminal1：
+roslaunch realsense2_camera rs_camera.launch
+terminal2：
+roslaunch mavros px4.launch
+terminal3：
+cd ~/vins-fusion
+source  ./devel/setup.bash
+rosrun vins vins_node ~/catkin_ws/src/VINS-Fusion/config/yourconfig_path/your_config_file.yaml
+terminal4:
+python3 ~/yourpath/d455_vins_ego-planner/fuctions_ws/src/fuctions/scripts/vins-to-px4.py
+找一个空旷的场地，拿着飞机平稳得绕两圈回到原点。查看terminal4里面的数据跟初始位姿的偏差。
+如果偏差范围不能接受
+将output文件里面的extrinsic_parameter.csv里面的数据拷贝到/yourconfig_path/your_config_file.yaml里面。
+重复
+
+九、飞机悬停测试：
 terminal1：
 roslaunch realsense2_camera rs_camera.launch
 terminal2：
@@ -197,7 +214,7 @@ python3 ~/yourpath/d455_vins_ego-planner/fuctions_ws/src/fuctions/scripts/vins-t
 如果数据没问题
 是用遥控器起飞，并悬停一段时间观察是否有问题。
 
-九、ego-planner安装：
+十、ego-planner安装：
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 git clone https://github.com/ZJU-FAST-Lab/ego-planner.git
