@@ -95,7 +95,7 @@ cd ~/vins_ws/src
 git clone https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git
 3、编译：
 cd ~/catkin_ws
-catkin_make -j4
+catkin_make -j4 -DCMAKE_BUILD_TYPE=Release
 source devel/setup.bash
 常见问题：Ⅰ、error: 'CV_LOAD_IMAGE_GRAYSCALE' was not declared
 解决方法：将代码中旧 API 替换：
