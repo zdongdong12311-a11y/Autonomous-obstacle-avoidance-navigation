@@ -30,15 +30,6 @@ cd librealsense
 sudo ./scripts/setup_udev_rules.sh
 mkdir build && cd build
 cmake .. -DBUILD_EXAMPLES=true -DBUILD_GRAPHICAL_EXAMPLES=true -DCMAKE_BUILD_TYPE=release -DFORCE_RSUSB_BACKEND=true
-cmake .. \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DBUILD_EXAMPLES=true \
-    -DBUILD_GRAPHICAL_EXAMPLES=true \
-    -DCMAKE_BUILD_TYPE=release \
-    -DFORCE_RSUSB_BACKEND=true \rrrff
-    -DBUILD_PYTHON_BINDINGS=true \
-    -DPYTHON_EXECUTABLE=/usr/bin/python3 \
-    -DBUILD_TOOLS=true
 make -j$(nproc)
 sudo make install
 sudo ldconfig
@@ -217,12 +208,40 @@ python3 ~/yourpath/d455_vins_ego-planner/fuctions_ws/src/fuctions/scripts/vins-t
 是用遥控器起飞，并悬停一段时间观察是否有问题。
 
 十、ego-planner安装：
-mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/src
+mkdir -p ~/ego_ws/src
+cd ~/ego_ws/src
 git clone https://github.com/ZJU-FAST-Lab/ego-planner.git
-cd ~/catkin_ws
+cd ~/ego_ws
 catkin_make
 source devel/setup.bash
 
 测试：
 roslaunch ego_planner single_run_in_sim.launch
+
+十一、避障测试：
+方法有很多种，这里选用最保险安全的一种：
+在飞机前方2m左右放一个障碍物
+首先在ego_ws/src/planner/plan_manage下创建一个scripts目录
+这个文件里scripts里的ego_bridge.py文件移动到ego_ws/src/planner/plan_manage/scrpits里
+重新编译egoplanner
+terminal：
+roslaunch realsense2_camera rs_camera.launch
+terminal2：
+cd vins-fusion
+source ./devel/setup.bash
+rosrun vins vins_node ~/catkin_ws/src/VINS-Fusion/config/yourconfig_path/your_config_file.yaml 
+terminal3:
+roslaunch mavros px4.launch
+terminal4:
+python3 ~/yourpath/d455_vins_ego-planner/fuctions_ws/src/fuctions/scripts/vins-to-px4.py
+terminal5：
+cd ~/ego_ws
+source ./devel/setup.bash
+python3 ego_ws/src/planner/plan_manage/scrpits/ego_bridge.py
+遥控器起飞，稳定后：
+terminal6：
+cd ~/ego_ws
+source ./devel/setup.bash
+roslaunch ego_planner run_in_sim.launch
+飞机会自主飞向正前方3m住，并且绕开障碍物。
+
