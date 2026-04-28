@@ -8,7 +8,7 @@ from typing import Optional, List, Dict, Any
 
 from geometry_msgs.msg import PoseStamped, Quaternion
 from quadrotor_msgs.msg import PositionCommand
-from mavros_msgs.msg import State, BatteryStatus
+from mavros_msgs.msg import State, BatteryState
 from mavros_msgs.srv import CommandTOL, SetMode, CommandBool
 from nav_msgs.msg import Odometry
 from tf.transformations import quaternion_from_euler, euler_from_quaternion
@@ -131,7 +131,7 @@ class Navigator:
         self.pub_setpoint = rospy.Publisher('/mavros/setpoint_position/local', PoseStamped, queue_size=10)
         rospy.Subscriber('/mavros/local_position/pose', PoseStamped, self._pose_cb)
         rospy.Subscriber('/mavros/state', State, self._state_cb)
-        rospy.Subscriber('/mavros/battery', BatteryStatus, self._battery_cb)
+        rospy.Subscriber('/mavros/battery', BatteryState, self._battery_cb)
         rospy.Subscriber('/vins_estimator/odometry', Odometry, self._vins_cb)
         rospy.Subscriber('/planning/pos_cmd', PositionCommand, self._planner_cb)
         
@@ -149,7 +149,7 @@ class Navigator:
         rospy.Service('/nav/start_patrol', Trigger, self._srv_patrol)
         rospy.Service('/nav/stop', Trigger, self._srv_stop)
         rospy.Service('/nav/enable_tracking', Trigger, self._srv_enable_tracking)
-        rospy.Service('/nav/status', Trigger, self._srv_status)
+        rospy.Service('/nav/state', Trigger, self._srv_state)
 
     def _pose_cb(self, msg):
         with self._lock:
@@ -617,7 +617,7 @@ class Navigator:
         return TriggerResponse(True, "巡逻")
     def _srv_stop(self, req): self.stop(); return TriggerResponse(True, "停止")
     def _srv_enable_tracking(self, req): self.enable_tracking(); return TriggerResponse(True, "追踪已启用")
-    def _srv_status(self, req):
+    def _srv_state(self, req):
         s = self.get_state()
         return TriggerResponse(True, "模式:{} 电池:{:.0%} 位置:({},{},{:.1f})".format(
             s['nav_mode'], s['battery'], s['position'][0], s['position'][1], s['position'][2]))
