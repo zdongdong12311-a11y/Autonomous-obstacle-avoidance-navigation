@@ -26,6 +26,8 @@ sed -i 's/CV_LOAD_IMAGE_UNCHANGED/cv::IMREAD_UNCHANGED/g' mat_io_test.cpp
 
 sed -i 's/CV_MINMAX/cv::NORM_MINMAX/g' sumpixel_test.cpp
 
+（4）遇到std问题：把CMakeLists.txt里的c++11改为c++14
+
 3、下载imu_utils:
 cd ~/imu_catkin_ws/src/
 git clone https://github.com/gaowenliang/imu_utils.git
